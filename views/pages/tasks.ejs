@@ -1,0 +1,93 @@
+<%- layout('layout') %>
+    <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3"><br>
+            <% if (success.length > 0 ) { %>
+            <div class="col-sm-12 col-xs-12 col-lg-12">
+              <div class="alert alert-success alert-dismissible text-center" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <strong> <%= success %> </strong>
+              </div>
+            </div>
+            <% } %>
+
+              <!-- Error status message -->
+            <% if (failure.length > 0 ) { %>
+            <div class="col-sm-12 col-xs-12 col-lg-12">
+              <div class="alert alert-danger alert-dismissible text-center" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <strong><%= failure %> </strong>
+              </div>
+            </div>
+            <% } %>
+            <br>
+            <% if (!totalTask.length == 0) { %>
+            <div class="row">
+              <div class="col-md-12">
+                <form action="/search/tasks" method="post">
+                  <span class="form-group">
+                    <input type="text" class="form-control" placeholder="Search tasks" name="tasksSearch" id="taskSearch">
+                  </span>
+                </form>
+              </div>
+            </div>
+          </div>
+          <br><br>
+            <div class="col-xs-12 col-sm-12 col-md-12 tagData">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Subject</th>
+                            <th>Task</th>
+                            <th>Date</th>
+                            <th>Created By</th>
+                            <th>Created To</th>
+                            <th>Done Or Not </th>
+                            <!-- <th>Edit</th> -->
+                            <!-- <th>Delete</th> -->
+                        </tr>
+                        <tbody>
+                            <% for(var i = 0; i < totalTask.length; i++) { %>
+                                <tr>
+                                    <td><label><%= i+1 %><label></td>
+                                    <td><label><%= totalTask[i].subject %><label></td>
+                                    <td><label><%= totalTask[i].task %><label></td>
+                                    <td><label><%= (totalTask[i].date).getDate() +" - " +(totalTask[i].date).getMonth() + " - "+ (totalTask[i].date).getFullYear() %><label></td>
+                                    <td><label><%= totalTask[i].created_by %><label></td>
+                                    <td><label><%= totalTask[i].created_to %><label></td>
+                                    <td><div class=" checkbox checkbox-inline">
+                                      <label>
+                                          <% if (totalTask[i].done == true) { %>
+                                            <strong><p>Done</p></strong>
+                                            <form action="/tasks/user/<%= totalTask[i]._id %>" method="get" class="taskForm">
+                                            <input type="checkbox" value="false" name="taskDone" class="taskDoneBox" />
+                                            <input type="hidden" value="<%= totalTask[i]._id %>" id="taskId" name="taskId">
+                                            <strong id="taskDone">Undo It</strong>
+                                            </form>
+                                          <% } else { %>
+                                            <form action="/tasks/user/<%= totalTask[i]._id %>" method="get" class="taskForm">
+
+                                            <input type="hidden" value="<%= totalTask[i]._id %>" id="taskId" name="taskId">
+                                            <input type="checkbox" value="false" name="taskDone" class="taskDoneBox" />
+                                            <strong id="taskDone">Mark Done</strong>
+                                          </form>
+                                          <% } %>
+                                      </label>
+                                    </div>
+                                  </td>
+                                    <!-- <td><a type="button" name="edit" class="btn btn-default" href="/task/edit/<%= totalTask[i].subject %>">Edit</a></td> -->
+                                    <!-- <td><a type="button" name="Delete" class="btn btn-danger" href="/task/delete/<%= totalTask[i].subject %>">Delete</a></td> -->
+                                </tr>
+                                <% } %>
+                        </tbody>
+                    </thead>
+                </table>
+            </div>
+            <% } else {  %>
+              <div class="text-center">
+                <h2>No Data</h2>
+              </div>
+              <% } %>
+        </div>
+    </div>

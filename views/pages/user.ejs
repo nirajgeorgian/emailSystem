@@ -1,0 +1,128 @@
+<% layout('layout') %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <h3 class="text-center">User Details</h3>
+      <ul class="list-group">
+        <li class="list-group-item">Fullname: <%= userFound.user_first_name %> <%= userFound.user_last_name %></li>
+        <li class="list-group-item">Username: <%= userFound.user_username %></li>
+        <li class="list-group-item">Email: <%= userFound.user_email %></li>
+        <li class="list-group-item">Company: </li>
+        <li class="list-group-item">Phone: </li>
+        <li class="list-group-item">Address: </li>
+        <!-- <li class="list-group-item">City: </li>
+        <li class="list-group-item">Website: </li>
+        <li class="list-group-item">Twitter: </li>
+        <li class="list-group-item">Facebook: </li>
+        <li class="list-group-item">Linkedln: </li> -->
+        <li class="list-group-item">Job Title: </li>
+        <li class="list-group-item">Created at: <%= (userFound.user_created_at).getDate() + " - " + (userFound.user_created_at).getMonth() + " - " + (userFound.user_created_at).getFullYear() %></li>
+      </ul>
+
+    </div>
+    <div class="col-md-5">
+      <h3 class="text-center">Tag Form Details</h3>
+      <% if (success.length > 0 ) { %>
+      <div class="col-sm-12 col-xs-12 col-lg-12">
+        <div class="alert alert-success alert-dismissible text-center" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong><%= success %></strong>
+        </div>
+      </div>
+      <% } %>
+
+        <!-- Error status message -->
+      <% if (failure.length > 0 ) { %>
+      <div class="col-sm-12 col-xs-12 col-lg-12">
+        <div class="alert alert-danger alert-dismissible text-center" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong><%= failure %></strong>
+        </div>
+      </div>
+      <% } %>
+      <br>
+      <div>
+        <!-- <form action="/user/tags" method="post" id="tags"> -->
+        <form action="/insert/tag" method="post" id="tags">
+          <span class="form-group">
+            <input type="text" class="form-control" placeholder="Add Taags" name="tagList" id="tag">
+            <input type="hidden" id="email" name="email" value="<%= userFound.user_email %>">
+            <input type="hidden" id="username" name="username" value="<%= userFound.user_username %>">
+          </span>
+        </form>
+      </div>
+      <br>
+      <!-- User tag here -->
+      <div>
+        <% for(var i = 0; i < tags.length; i++) { %>
+          <span class="badge"><%= tags[i] %></span>
+          <% } %>
+      </div><br>
+      <form class="" method="post" name="userForm" action="/user/sendmail">
+        <div class="form-group">
+          <input type="text" name="subject" id="subject" class="form-control input-lg" placeholder="Subject">
+        </div>
+        <div class="form-group">
+          <label for="message">Message:</label>
+          <textarea name="message" rows="8" cols="80" class="form-control input-lg" id="message" placeholder="Your message here"></textarea>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <button type="button" name="admin" class="btn btn-default btn-block">sender:: <%= userFound.user_username %></button>
+            <input type="hidden" name="email" value="<%= userFound.user_email %>">
+            <input type="hidden" name="_id" value="<%= userFound._id %>">
+            <input type="hidden" name="toUsername" value="<%= userFound.user_username %>">
+          </div>
+          <div class="col-md-1"><label for="date" class="datepicker-date" id="userDate">Date</label></div>
+          <div class="col-md-5">
+            <div class="form-group"> <!-- Date input -->
+              <input class="form-control" id="date" name="date" placeholder="YYYY/MM/DD" type="text"/>
+            </div>
+          </div>
+          <div class="col-md-5"><button type="submit" name="addnote" class="btn btn-default btn-block" id="addnote">Add note</button></div>
+          <div class="col-md-2"></div>
+          <div class="col-md-5"><button type="submit" name="sendUserMail" class="btn btn-default btn-block" id="sendmail">Send mail</button></div>
+        </div>
+      </form>
+      <!-- Email div goes here  -->
+      <div>
+        <h3>Email Sended: </h3>
+        <% for(var i = 0 ; i < email.length; i++) { %>
+          <div class="container">
+            <h3>Email No:<%= i+1 %></h3>
+            <p><span class="badge">Message _id: </span> <%= email[i]._id %></p>
+            <p><span class="badge">Subject: </span> <%= email[i].subject %></p>
+            <p><span class="badge">Message: </span> <%= email[i].message %></p>
+            <p><span class="badge">From: </span> <%= email[i].from %></p>
+            <p><span class="badge">Date Of Sending:</span> <%= (email[i].dateOfSending).getDate() + ' - ' + (email[i].dateOfSending).getMonth() + ' - ' + (email[i].dateOfSending).getFullYear() %></p>
+          </div>
+          <hr>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>Subject</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <!-- User tasks goes here -->
+        <% for(var i = 0; i < userTasks.length; i++) { %>
+        <tbody>
+          <tr>
+            <td><%= i+1 %></td>
+            <td><%= (userTasks[i].date).toDateString() %></td>
+            <td><%= userTasks[i].subject %></td>
+            <td><%= userTasks[i].task %></td>
+          </tr>
+        </tbody>
+        <% } %>
+      </table>
+    </div>
+  </div>
+</div>
