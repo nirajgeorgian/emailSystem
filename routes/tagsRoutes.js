@@ -23,6 +23,12 @@ router.route('/search/tags')
         .get(tagsController.tagSearch)
         .post(tagsController.tagSearchPost)
 
+router.route('/serach/alltags')
+          .post(tagsController.universalSearchTag)
+
+router.route('/tags/:tagname')
+            .get(tagsController.tagOption)
+
 router.get('/tags/delete/:tag_name', tagsController.tagDelete)
 router.post('/user/add/tag', tagsController.editUserTag)
 router.post('/insert/tag', tagsController.editSinleUserTag)

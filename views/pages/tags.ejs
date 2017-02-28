@@ -59,7 +59,7 @@
                                         <%= i+1 %>
                                     </td>
                                     <td>
-                                        <%= tags[i].tag_name %>
+                                        <a href="/tags/<%= tags[i].tag_name %>"><%= tags[i].tag_name %></a>
                                     </td>
                                     <td><a type="button" name="edit" class="btn btn-default" href="/tags/edit/<%= tags[i].tag_name %>">Edit</a></td>
                                     <td><a type="button" name="Delete" class="btn btn-danger" href="/tags/delete/<%= tags[i].tag_name %>">Delete</a></td>

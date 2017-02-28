@@ -287,5 +287,24 @@ module.exports = {
 
       console.log(req.body.tagsearch)
     }
+  },
+  universalSearchTag: (req, res, next) => {
+    if(!req.user) {
+      res.redirect('/admin/login')
+    } else {
+      tagRoute.find({}, (err, found) => {
+        if (err) return next(err)
+        res.json(found)
+      })
+    }
+  },
+  tagOption: (req, res, next) => {
+    if(!req.user) {
+      res.redirect('/admin/login')
+    } else {
+      var tagName = req.params.tagname
+      console.log(tagName);
+      res.render('pages/singleTags')
+    }
   }
 }

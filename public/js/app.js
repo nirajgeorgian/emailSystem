@@ -1,3 +1,4 @@
+var simplemde = new SimpleMDE({ element: document.getElementById("MyID") });
 // Handling the click event
 var tag = document.getElementById('tag')
 if(tag) {
@@ -47,6 +48,9 @@ $(function() {
       e.preventDefault()
     })
     var tagsearch = $(this).val()
+    if (tagsearch == "") {
+      location.reload();
+    }
     $.ajax({
       method: 'POST',
       url: '/search/tags',
